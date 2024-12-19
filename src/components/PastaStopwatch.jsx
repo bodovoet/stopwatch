@@ -127,7 +127,7 @@ const PastaStopwatch = ({ seambitId }) => {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto rounded-[5px] shadow-none bg-white">
       <CardHeader>
         <CardTitle className="text-center">PASTA Cycle Stopwatch</CardTitle>
       </CardHeader>
