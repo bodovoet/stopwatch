@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { supabase } from '@/utils/supabase';
 
 const PastaStopwatch = ({ seambitId }) => {
+  // Existing state
   const [isRunning, setIsRunning] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [startTime, setStartTime] = useState(null);
@@ -20,12 +22,43 @@ const PastaStopwatch = ({ seambitId }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [error, setError] = useState(null);
 
+  // New state for IDs
+  const [accounts, setAccounts] = useState([]);
+  const [devices, setDevices] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState('');
+  const [selectedDevice, setSelectedDevice] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch account and device IDs on component mount
+  useEffect(() => {
+    const fetchIds = async () => {
+      try {
+        const response = await fetch('/api/getIds');
+        const data = await response.json();
+        
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        setAccounts(data.accounts);
+        setDevices(data.devices);
+        setIsLoading(false);
+      } catch (err) {
+        setError('Failed to load account and device data');
+        setIsLoading(false);
+      }
+    };
+
+    fetchIds();
+  }, []);
+
+  // Existing useEffect for stopwatch
   useEffect(() => {
     let intervalId;
     if (isRunning) {
       intervalId = setInterval(() => {
         setElapsedTime(Date.now() - startTime);
-      }, 10); // Update every 10ms for smoother display
+      }, 10);
     }
     return () => clearInterval(intervalId);
   }, [isRunning, startTime]);
@@ -38,6 +71,12 @@ const PastaStopwatch = ({ seambitId }) => {
   };
 
   const handleStart = () => {
+    if (!selectedAccount || !selectedDevice) {
+      setError('Please select both an account and device before starting');
+      return;
+    }
+    
+    setError(null);
     setIsRunning(true);
     setStartTime(Date.now());
     setCurrentStep(1);
@@ -94,8 +133,8 @@ const PastaStopwatch = ({ seambitId }) => {
   const handleSubmit = async (finalTimestamps) => {
     try {
       const dataToInsert = {
-        account_id: '123',
-        device_id: seambitId || '123',
+        account_id: selectedAccount,
+        device_id: selectedDevice,
         stopwatch_start: new Date(finalTimestamps.cycleStart).toISOString(),
         stopwatch_needle_start: new Date(finalTimestamps.needleStart).toISOString(),
         stopwatch_needle_end: new Date(finalTimestamps.needleEnd).toISOString(),
@@ -144,6 +183,16 @@ const PastaStopwatch = ({ seambitId }) => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <Card className="w-full max-w-md mx-auto">
+        <CardContent className="p-6">
+          <div className="text-center">Loading...</div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full max-w-md mx-auto rounded-[5px] shadow-none bg-white">
       <CardHeader>
@@ -151,6 +200,43 @@ const PastaStopwatch = ({ seambitId }) => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center space-y-6">
+          {/* Account and Device Selection */}
+          <div className="w-full space-y-4">
+            <Select 
+              value={selectedAccount} 
+              onValueChange={setSelectedAccount}
+              disabled={isRunning}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Account" />
+              </SelectTrigger>
+              <SelectContent>
+                {accounts.map((account) => (
+                  <SelectItem key={account.account_id} value={account.account_id}>
+                    {account.account_id}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select 
+              value={selectedDevice} 
+              onValueChange={setSelectedDevice}
+              disabled={isRunning}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Device" />
+              </SelectTrigger>
+              <SelectContent>
+                {devices.map((device) => (
+                  <SelectItem key={device.device_id} value={device.device_id}>
+                    {device.device_id}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="text-4xl font-mono">
             {formatTime(elapsedTime)}
           </div>
@@ -165,6 +251,7 @@ const PastaStopwatch = ({ seambitId }) => {
                 size="lg"
                 onClick={handleStart}
                 className="bg-green-600 hover:bg-green-700"
+                disabled={!selectedAccount || !selectedDevice}
               >
                 <Play className="mr-2" />
                 Start
