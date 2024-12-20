@@ -4,12 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { supabase } from '@/utils/supabase';
 
 const PastaStopwatch = ({ seambitId }) => {
-  // Existing state
+  // All existing state declarations...
   const [isRunning, setIsRunning] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [startTime, setStartTime] = useState(null);
@@ -86,6 +85,7 @@ const PastaStopwatch = ({ seambitId }) => {
     });
   };
 
+  // All other handlers remain the same...
   const handleStep = () => {
     if (!isRunning) return;
 
@@ -148,22 +148,10 @@ const PastaStopwatch = ({ seambitId }) => {
         .insert([dataToInsert])
         .select();
   
-      if (error) {
-        console.error('Supabase error details:', {
-          code: error.code,
-          message: error.message,
-          details: error.details
-        });
-        throw error;
-      }
-      
+      if (error) throw error;
       console.log('Success:', data);
     } catch (err) {
-      console.error('Full error object:', {
-        name: err.name,
-        message: err.message,
-        stack: err.stack
-      });
+      console.error('Error:', err);
       setError('Failed to save cycle data. Please try again.');
     }
   };
@@ -200,41 +188,35 @@ const PastaStopwatch = ({ seambitId }) => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center space-y-6">
-          {/* Account and Device Selection */}
+          {/* Account and Device Selection using regular select elements */}
           <div className="w-full space-y-4">
-            <Select 
-              value={selectedAccount} 
-              onValueChange={setSelectedAccount}
+            <select 
+              className="w-full p-2 border rounded-md bg-white"
+              value={selectedAccount}
+              onChange={(e) => setSelectedAccount(e.target.value)}
               disabled={isRunning}
             >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Account" />
-              </SelectTrigger>
-              <SelectContent>
-                {accounts.map((account) => (
-                  <SelectItem key={account.account_id} value={account.account_id}>
-                    {account.account_id}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              <option value="">Select Account</option>
+              {accounts.map((account) => (
+                <option key={account.account_id} value={account.account_id}>
+                  {account.account_id}
+                </option>
+              ))}
+            </select>
 
-            <Select 
-              value={selectedDevice} 
-              onValueChange={setSelectedDevice}
+            <select
+              className="w-full p-2 border rounded-md bg-white"
+              value={selectedDevice}
+              onChange={(e) => setSelectedDevice(e.target.value)}
               disabled={isRunning}
             >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Device" />
-              </SelectTrigger>
-              <SelectContent>
-                {devices.map((device) => (
-                  <SelectItem key={device.device_id} value={device.device_id}>
-                    {device.device_id}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              <option value="">Select Device</option>
+              {devices.map((device) => (
+                <option key={device.device_id} value={device.device_id}>
+                  {device.device_id}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="text-4xl font-mono">
