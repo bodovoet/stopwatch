@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { supabase } from '@/utils/supabase';
 
 const PastaStopwatch = ({ seambitId }) => {
-  // All existing state declarations...
   const [isRunning, setIsRunning] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [startTime, setStartTime] = useState(null);
@@ -28,7 +28,6 @@ const PastaStopwatch = ({ seambitId }) => {
   const [selectedDevice, setSelectedDevice] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch account and device IDs on component mount
   useEffect(() => {
     const fetchIds = async () => {
       try {
@@ -51,7 +50,6 @@ const PastaStopwatch = ({ seambitId }) => {
     fetchIds();
   }, []);
 
-  // Existing useEffect for stopwatch
   useEffect(() => {
     let intervalId;
     if (isRunning) {
@@ -85,7 +83,6 @@ const PastaStopwatch = ({ seambitId }) => {
     });
   };
 
-  // All other handlers remain the same...
   const handleStep = () => {
     if (!isRunning) return;
 
@@ -188,35 +185,41 @@ const PastaStopwatch = ({ seambitId }) => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center space-y-6">
-          {/* Account and Device Selection using regular select elements */}
+          {/* Account and Device Selection */}
           <div className="w-full space-y-4">
-            <select 
-              className="w-full p-2 border rounded-md bg-white"
-              value={selectedAccount}
-              onChange={(e) => setSelectedAccount(e.target.value)}
+            <Select 
+              value={selectedAccount} 
+              onValueChange={setSelectedAccount}
               disabled={isRunning}
             >
-              <option value="">Select Account</option>
-              {accounts.map((account) => (
-                <option key={account.account_id} value={account.account_id}>
-                  {account.account_id}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Account" />
+              </SelectTrigger>
+              <SelectContent>
+                {accounts.map((account) => (
+                  <SelectItem key={account.account_id} value={account.account_id}>
+                    {account.account_id}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-            <select
-              className="w-full p-2 border rounded-md bg-white"
-              value={selectedDevice}
-              onChange={(e) => setSelectedDevice(e.target.value)}
+            <Select 
+              value={selectedDevice} 
+              onValueChange={setSelectedDevice}
               disabled={isRunning}
             >
-              <option value="">Select Device</option>
-              {devices.map((device) => (
-                <option key={device.device_id} value={device.device_id}>
-                  {device.device_id}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Device" />
+              </SelectTrigger>
+              <SelectContent>
+                {devices.map((device) => (
+                  <SelectItem key={device.device_id} value={device.device_id}>
+                    {device.device_id}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="text-4xl font-mono">
