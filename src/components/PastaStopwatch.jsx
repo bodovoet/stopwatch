@@ -93,31 +93,38 @@ const PastaStopwatch = ({ seambitId }) => {
 
   const handleSubmit = async (finalTimestamps) => {
     try {
-      console.log('Starting submission with timestamps:', finalTimestamps);
-      
       const dataToInsert = {
-        account_id: '123', // We'll need to get this from props or context later
-        device_id: seambitId || '123', // Using seambitId if available
+        account_id: '123',
+        device_id: seambitId || '123',
         stopwatch_start: new Date(finalTimestamps.cycleStart).toISOString(),
         stopwatch_needle_start: new Date(finalTimestamps.needleStart).toISOString(),
         stopwatch_needle_end: new Date(finalTimestamps.needleEnd).toISOString(),
         stopwatch_end: new Date(finalTimestamps.cycleEnd).toISOString(),
       };
   
-      console.log('Attempting to insert data:', dataToInsert);
+      console.log('Attempting to insert:', dataToInsert);
   
       const { data, error } = await supabase
         .from('stopwatch_timestamps')
-        .insert([dataToInsert]);
+        .insert([dataToInsert])
+        .select();
   
       if (error) {
-        console.error('Supabase error:', error);
+        console.error('Supabase error details:', {
+          code: error.code,
+          message: error.message,
+          details: error.details
+        });
         throw error;
       }
       
-      console.log('Successfully saved timestamps:', data);
+      console.log('Success:', data);
     } catch (err) {
-      console.error('Detailed error:', err);
+      console.error('Full error object:', {
+        name: err.name,
+        message: err.message,
+        stack: err.stack
+      });
       setError('Failed to save cycle data. Please try again.');
     }
   };

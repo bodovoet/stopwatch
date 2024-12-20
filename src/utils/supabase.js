@@ -3,14 +3,14 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-// Validate URL format
-if (!supabaseUrl || !supabaseUrl.startsWith('https://')) {
-  throw new Error(`Invalid Supabase URL: ${supabaseUrl}. URL must start with https://`)
-}
+// Add debug logging
+console.log('Initializing Supabase with:', { 
+  url: supabaseUrl,
+  hasKey: !!supabaseAnonKey // Don't log the actual key
+});
 
-if (!supabaseAnonKey) {
-  throw new Error('Missing Supabase Anon Key')
-}
-
-// Create the client with validated credentials
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: false // Since this is just for data submission
+  }
+})
