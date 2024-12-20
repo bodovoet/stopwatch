@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Play, Pause, RotateCcw } from 'lucide-react';
-import { supabase } from '@/src/utils/supabase';
+import { supabase } from '@/utils/supabase';
 
 const PastaStopwatch = ({ seambitId }) => {
   const [isRunning, setIsRunning] = useState(false);
