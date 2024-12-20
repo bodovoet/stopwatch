@@ -4,11 +4,18 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Play, Pause, RotateCcw } from 'lucide-react';
 import { supabase } from '@/utils/supabase';
 
 const PastaStopwatch = ({ seambitId }) => {
+  // Existing state
   const [isRunning, setIsRunning] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [startTime, setStartTime] = useState(null);
@@ -21,13 +28,14 @@ const PastaStopwatch = ({ seambitId }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [error, setError] = useState(null);
 
-  // New state for IDs
+  // State for IDs
   const [accounts, setAccounts] = useState([]);
   const [devices, setDevices] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState('');
   const [selectedDevice, setSelectedDevice] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  // Fetch account and device IDs on component mount
   useEffect(() => {
     const fetchIds = async () => {
       try {
@@ -50,6 +58,7 @@ const PastaStopwatch = ({ seambitId }) => {
     fetchIds();
   }, []);
 
+  // Stopwatch timer effect
   useEffect(() => {
     let intervalId;
     if (isRunning) {
@@ -145,10 +154,18 @@ const PastaStopwatch = ({ seambitId }) => {
         .insert([dataToInsert])
         .select();
   
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error details:', {
+          code: error.code,
+          message: error.message,
+          details: error.details
+        });
+        throw error;
+      }
+      
       console.log('Success:', data);
     } catch (err) {
-      console.error('Error:', err);
+      console.error('Full error object:', err);
       setError('Failed to save cycle data. Please try again.');
     }
   };
