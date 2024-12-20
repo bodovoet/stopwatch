@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Play, Pause, RotateCcw } from 'lucide-react';
+import { supabase } from '@/src/utils/supabase';
 
 const PastaStopwatch = ({ seambitId }) => {
   const [isRunning, setIsRunning] = useState(false);
@@ -92,21 +93,24 @@ const PastaStopwatch = ({ seambitId }) => {
 
   const handleSubmit = async (finalTimestamps) => {
     try {
-      const response = await fetch('/api/pasta-cycle', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          seambitId,
-          ...finalTimestamps
-        }),
-      });
+      const { data, error } = await supabase
+        .from('stopwatch_timestamps')
+        .insert([
+          {
+            account_id: '123', // We'll need to get this from props or context later
+            device_id: seambitId || '123', // Using seambitId if available
+            stopwatch_start: new Date(finalTimestamps.cycleStart).toISOString(),
+            stopwatch_needle_start: new Date(finalTimestamps.needleStart).toISOString(),
+            stopwatch_needle_end: new Date(finalTimestamps.needleEnd).toISOString(),
+            stopwatch_end: new Date(finalTimestamps.cycleEnd).toISOString(),
+          }
+        ]);
 
-      if (!response.ok) {
-        throw new Error('Failed to save cycle data');
-      }
+      if (error) throw error;
+      
+      console.log('Successfully saved timestamps:', data);
     } catch (err) {
+      console.error('Error saving timestamps:', err);
       setError('Failed to save cycle data. Please try again.');
     }
   };
