@@ -2,10 +2,9 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <header className="bg-gray-800 text-white p-4">
+    <header className="bg-white text-black p-4">
       <nav>
-        <Link href="/">Home</Link> | 
-        <Link href="/Stopwatch">Stopwatch</Link> | 
+        <Link href="/Home">Home</Link> | 
         <Link href="/About">About</Link> | 
         <Link href="/Contact">Contact</Link> | 
         <Link href="/Support">Support</Link> | 
