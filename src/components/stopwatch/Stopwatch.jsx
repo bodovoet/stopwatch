@@ -17,10 +17,19 @@ export default function Stopwatch() {
     async function fetchSeambits() {
       try {
         const response = await fetch("/api/v1/getIDs");
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
         const data = await response.json();
-        setSeambits(data); // Set seambits with label and device_id
+        if (Array.isArray(data)) {
+          setSeambits(data);
+        } else {
+          console.error("Unexpected data format:", data);
+          setSeambits([]); // Default to an empty array if the data format is wrong
+        }
       } catch (error) {
         console.error("Error fetching seambits:", error);
+        setSeambits([]); // Default to an empty array on error
       }
     }
     fetchSeambits();
