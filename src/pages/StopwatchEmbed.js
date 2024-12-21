@@ -3,7 +3,7 @@ import '@/layout/globals.css';
 
 export default function StopwatchEmbed() {
   return (
-    <div className="p-4">
+    <div className="background-secondary">
       <Stopwatch />
     </div>
   );

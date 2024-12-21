@@ -24,6 +24,12 @@
   --accent-secondary-gray-dark: #AAAAAA;
 }
 
+.background-secondary {
+  background-color: var(--background-secondary);
+  min-height: 100vh; /* Ensures it covers the full page height */
+  margin: 0;
+}
+
 /* Default Body Styling */
 body {
   color: var(--text-primary);
