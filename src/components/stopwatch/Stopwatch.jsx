@@ -56,7 +56,7 @@ export default function Stopwatch() {
   }, [isRunning]);
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-100 shadow-lg rounded-lg max-w-md mx-auto mt-10">
+    <div className="flex flex-col items-center p-6 bg-gray-100 shadow-lg rounded-lg max-w-md mx-auto mt-1">
       <h1 className="text-xl font-bold mb-4">PASTA Cycle Stopwatch</h1>
       <div className="mb-4 text-4xl font-bold text-gray-800 bg-white p-4 rounded shadow">
         {formatTime(time)}
