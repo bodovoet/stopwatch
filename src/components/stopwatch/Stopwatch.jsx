@@ -42,7 +42,6 @@ export default function Stopwatch() {
     setTimestamps([]);
   };
 
-  // Handle stopwatch updates
   useEffect(() => {
     let interval;
     if (isRunning) {
@@ -52,38 +51,39 @@ export default function Stopwatch() {
     } else {
       clearInterval(interval);
     }
-    return () => clearInterval(interval); // Cleanup
+    return () => clearInterval(interval);
   }, [isRunning]);
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-100 shadow-lg rounded-lg max-w-md mx-auto mt-1">
-      <div className="mb-4 text-4xl font-bold text-gray-800 bg-white p-4 rounded shadow">
+    <div className="p-6 border border-[#aaaaaa] rounded-[5px] bg-transparent">
+      <h1 className="text-xl font-bold mb-4">PASTA Cycle Stopwatch</h1>
+      <div className="mb-4 text-4xl font-bold text-gray-800 bg-[#e8e9ed] p-4 rounded-[5px] flex items-center justify-center">
         {formatTime(time)}
       </div>
-      <p className="mb-4 text-gray-600">
+      <p className="mb-4 text-gray-600 text-center">
         {currentStep === 0
           ? "Press Start Cycle to begin"
           : currentStep === null
           ? "Cycle complete. Press Reset to restart."
           : `Current Step: ${buttonLabels[currentStep]}`}
       </p>
-      <div className="flex space-x-4 mb-6">
-        {currentStep !== null && (
+      <div className="flex flex-col items-center space-y-4 mb-6">
+        {currentStep !== null && currentStep !== null && (
           <button
-            className={`px-6 py-2 rounded shadow text-white ${
-              currentStep === 0 ? "bg-green-500 hover:bg-green-600" : "bg-blue-500 hover:bg-blue-600"
-            }`}
+            className="px-6 py-2 rounded text-white bg-[#0066ff]"
             onClick={handleButtonClick}
           >
             {buttonLabels[currentStep]}
           </button>
         )}
-        <button
-          className="bg-gray-500 text-white px-6 py-2 rounded shadow hover:bg-gray-600"
-          onClick={resetStopwatch}
-        >
-          Reset
-        </button>
+        {currentStep === null && (
+          <button
+            className="px-6 py-2 rounded text-white bg-gray-500"
+            onClick={resetStopwatch}
+          >
+            Reset
+          </button>
+        )}
       </div>
       <div className="w-full">
         <h2 className="text-lg font-bold mb-2">Timestamps</h2>
