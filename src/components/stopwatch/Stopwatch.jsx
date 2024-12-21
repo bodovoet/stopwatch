@@ -6,29 +6,24 @@ export default function Stopwatch() {
   const [isRunning, setIsRunning] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [timestamps, setTimestamps] = useState([]);
-  const [accountId, setAccountId] = useState(null);
-  const [deviceId, setDeviceId] = useState(null);
-  const buttonLabels = ["Start Cycle", "Needle Start", "Needle End", "Stop Cycle"];
+  const [seambits, setSeambits] = useState([]);
+  const [selectedSeambit, setSelectedSeambit] = useState(null);
+  const [isSeambitLocked, setIsSeambitLocked] = useState(false);
 
-  // Fetch account_id and device_id from API
+  const buttonLabels = ["Cycle START", "Sewing START", "Sewing STOP", "Cycle STOP"];
+
+  // Fetch seambits from the API
   useEffect(() => {
-    async function fetchData() {
+    async function fetchSeambits() {
       try {
-        const response = await fetch("@/api/v1/getIDs/route");
+        const response = await fetch("/api/v1/getIDs");
         const data = await response.json();
-
-        if (data.accounts && data.accounts.length > 0) {
-          const firstAccount = data.accounts[0];
-          setAccountId(firstAccount.account_id);
-          setDeviceId(firstAccount.devices[0]?.device_id || "Unknown");
-        } else {
-          console.error("No accounts or devices found.");
-        }
+        setSeambits(data); // Set seambits with label and device_id
       } catch (error) {
-        console.error("Error fetching account and device IDs:", error);
+        console.error("Error fetching seambits:", error);
       }
     }
-    fetchData();
+    fetchSeambits();
   }, []);
 
   const formatTime = (time) => {
@@ -46,6 +41,7 @@ export default function Stopwatch() {
   const handleButtonClick = () => {
     if (currentStep === 0) {
       setIsRunning(true);
+      setIsSeambitLocked(true); // Lock the dropdown
       setTime(0);
       recordTimestamp();
       setCurrentStep(1);
@@ -64,12 +60,14 @@ export default function Stopwatch() {
     setTime(0);
     setCurrentStep(0);
     setTimestamps([]);
+    setIsSeambitLocked(false); // Unlock the dropdown
+    setSelectedSeambit(null); // Reset dropdown selection
   };
 
   const saveTimestamps = async () => {
     const dataToInsert = {
-      account_id: accountId,
-      device_id: deviceId,
+      account_id: "example_account_id", // Placeholder for now
+      device_id: selectedSeambit.device_id, // Use the device_id from the selected seambit
       stopwatch_cycle_start: timestamps[0]?.timestamp || null,
       stopwatch_sewing_start: timestamps[1]?.timestamp || null,
       stopwatch_sewing_stop: timestamps[2]?.timestamp || null,
@@ -107,18 +105,31 @@ export default function Stopwatch() {
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  const calculateElapsed = (index) => {
-    if (index === 0) return null;
-    return formatTime(timestamps[index].elapsed - timestamps[index - 1].elapsed);
-  };
-
-  const totalSewingTime = timestamps[2] ? timestamps[2].elapsed - timestamps[1].elapsed : 0;
-  const totalCycleTime = timestamps[3] ? timestamps[3].elapsed - timestamps[0].elapsed : 0;
-
   return (
-    <div className="p-6 border border-[#aaaaaa] rounded-[5px] bg-transparent">
-      <h1 className="text-xl font-bold mb-4">PASTA Cycle Stopwatch</h1>
-      <div className="mb-4 text-4xl font-bold text-gray-800 bg-[#e8e9ed] p-4 rounded-[5px] flex items-center justify-center">
+    <div className="p-6 border border-[#aaaaaa] rounded-[10px] bg-white">
+      <div className="mb-4">
+        <select
+          id="seambit-select"
+          className="w-full p-2 border border-[#aaaaaa] rounded-[5px]"
+          value={selectedSeambit ? selectedSeambit.device_id : ""}
+          onChange={(e) =>
+            setSelectedSeambit(
+              seambits.find((seambit) => seambit.device_id === e.target.value)
+            )
+          }
+          disabled={isSeambitLocked}
+        >
+          <option value="" disabled>
+            Select a seambit
+          </option>
+          {seambits.map((seambit) => (
+            <option key={seambit.device_id} value={seambit.device_id}>
+              Seambit label {seambit.label} {/* Show label */}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-4 text-4xl font-bold text-gray-800 bg-[#e8e9ed] border border-[#aaaaaa] p-4 rounded-[10px] flex items-center justify-center">
         {formatTime(time)}
       </div>
       <p className="mb-4 text-gray-600 text-center">
@@ -126,13 +137,16 @@ export default function Stopwatch() {
           ? "Press Start Cycle to begin"
           : currentStep === null
           ? "Time measurement complete."
-          : ""}
+          : "Follow steps"}
       </p>
       <div className="flex space-x-4 mb-6 justify-center">
         {currentStep === 0 && (
           <button
-            className="px-6 py-2 rounded font-bold text-white bg-[#0066ff]"
+            className={`px-6 py-6 rounded-[10px] text-xl font-bold text-white ${
+              !selectedSeambit ? "bg-[#a3caff]" : "bg-[#0066ff]"
+            }`}
             onClick={handleButtonClick}
+            disabled={!selectedSeambit} // Disable until a seambit is selected
           >
             {buttonLabels[currentStep]}
           </button>
@@ -140,13 +154,13 @@ export default function Stopwatch() {
         {currentStep !== null && currentStep !== 0 && (
           <>
             <button
-              className="px-6 py-2 rounded font-bold text-white bg-[#0066ff]"
+              className="px-6 py-6 rounded-[10px] text-xl font-bold text-white bg-[#0066ff]"
               onClick={handleButtonClick}
             >
               {buttonLabels[currentStep]}
             </button>
             <button
-              className="px-6 py-2 rounded text-white bg-gray-500"
+              className="px-6 py-6 rounded-[10px] text-xl text-gray-500 bg-[#e8e9ed]"
               onClick={resetStopwatch}
             >
               Reset
@@ -156,13 +170,13 @@ export default function Stopwatch() {
         {currentStep === null && (
           <>
             <button
-              className="px-6 py-2 rounded font-bold text-white bg-green-500"
+              className="px-6 py-6 rounded-[10px] text-xl font-bold text-white bg-[#0066ff]"
               onClick={saveTimestamps}
             >
               Save
             </button>
             <button
-              className="px-6 py-2 rounded text-white bg-gray-500"
+              className="px-6 py-6 rounded-[10px] text-xl text-gray-500 bg-[#e8e9ed]"
               onClick={resetStopwatch}
             >
               Reset
@@ -177,22 +191,9 @@ export default function Stopwatch() {
             <li key={index} className="mb-2">
               <span className="font-bold">{buttonLabels[ts.step]}: </span>
               {new Date(ts.timestamp).toLocaleTimeString()}
-              {index > 0 && (
-                <span className="text-gray-600"> (+{calculateElapsed(index)})</span>
-              )}
             </li>
           ))}
         </ul>
-        {timestamps.length === 4 && (
-          <div className="mt-4">
-            <p className="font-bold">
-              Total Sewing Time: {formatTime(totalSewingTime)}
-            </p>
-            <p className="font-bold">
-              Total Cycle Time: {formatTime(totalCycleTime)}
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );

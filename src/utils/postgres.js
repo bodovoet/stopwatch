@@ -8,6 +8,14 @@ const pool = new Pool({
   port: process.env.PG_PORT,
 });
 
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-};
+async function queryDatabase(query, params = []) {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(query, params);
+    return result.rows;
+  } finally {
+    client.release();
+  }
+}
+
+module.exports = { queryDatabase };
