@@ -21,6 +21,7 @@ export default function Stopwatch() {
           throw new Error(`API error: ${response.status}`);
         }
         const data = await response.json();
+        console.log("Fetched seambits data:", data); // Log the data
         if (Array.isArray(data)) {
           setSeambits(data);
         } else {
@@ -117,9 +118,12 @@ export default function Stopwatch() {
   return (
     <div className="p-6 border border-[#aaaaaa] rounded-[10px] bg-white">
       <div className="mb-4">
+        <label htmlFor="seambit-select" className="block font-bold mb-2">
+          Select Seambit:
+        </label>
         <select
           id="seambit-select"
-          className="w-full p-2 border border-[#aaaaaa] rounded-[5px]"
+          className="w-full p-2 border rounded"
           value={selectedSeambit ? selectedSeambit.device_id : ""}
           onChange={(e) =>
             setSelectedSeambit(
@@ -129,13 +133,19 @@ export default function Stopwatch() {
           disabled={isSeambitLocked}
         >
           <option value="" disabled>
-            Select a seambit
+            -- Select a Seambit --
           </option>
-          {seambits.map((seambit) => (
-            <option key={seambit.device_id} value={seambit.device_id}>
-              Seambit label {seambit.label} {/* Show label */}
+          {Array.isArray(seambits) && seambits.length > 0 ? (
+            seambits.map((seambit) => (
+              <option key={seambit.device_id} value={seambit.device_id}>
+                {seambit.label}
+              </option>
+            ))
+          ) : (
+            <option value="" disabled>
+              No seambits available
             </option>
-          ))}
+          )}
         </select>
       </div>
       <div className="mb-4 text-4xl font-bold text-gray-800 bg-[#e8e9ed] border border-[#aaaaaa] p-4 rounded-[10px] flex items-center justify-center">
