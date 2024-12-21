@@ -3,19 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background Colors */
+  --background-primary: #ffffff; /* White */
+  --background-secondary: #f6f6f6; /* Light Gray */
+
+  /* Text Colors */
+  --text-primary: #000000; /* Black */
+
+  /* Accent Colors */
+  --accent-primary: #0066ff; /* Blue */
+  --accent-secondary-yellow: #FDE68A;
+  --accent-secondary-gold: #FFCC33;
+  --accent-secondary-red-dark: #9B1D20;
+  --accent-secondary-red-light: #E94F37;
+  --accent-secondary-blue-light: #0075A2;
+  --accent-secondary-blue-dark: #052F5F;
+  --accent-secondary-green-light: #499F68;
+  --accent-secondary-green-dark: #0B6E4F;
+  --accent-secondary-gray-light: #E8E9ED;
+  --accent-secondary-gray-dark: #AAAAAA;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Default Body Styling */
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--text-primary);
+  background-color: var(--background-primary);
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+
+/* Headline Styling */
+h1, h2, h3, h4, h5, h6 {
   font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+/* Responsive Utility Classes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem; /* Adds spacing on the left and right */
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 0.5rem; /* Reduced padding for smaller screens */
+  }
 }

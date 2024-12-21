@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Stopwatch() {
   const [time, setTime] = useState(0);
@@ -42,7 +42,8 @@ export default function Stopwatch() {
     setTimestamps([]);
   };
 
-  React.useEffect(() => {
+  // Handle stopwatch updates
+  useEffect(() => {
     let interval;
     if (isRunning) {
       interval = setInterval(() => {
@@ -51,7 +52,7 @@ export default function Stopwatch() {
     } else {
       clearInterval(interval);
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Cleanup
   }, [isRunning]);
 
   return (
