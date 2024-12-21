@@ -6,6 +6,7 @@ export default async function handler(req, res) {
       const result = await queryDatabase(`
         SELECT device_id, label
         FROM customer_provisioning.seambit
+        LIMIT 10000
       `);
       console.log("Query results:", result);
       res.status(200).json(result);
