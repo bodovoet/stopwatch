@@ -6,10 +6,30 @@ export default function Stopwatch() {
   const [isRunning, setIsRunning] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [timestamps, setTimestamps] = useState([]);
+  const [accountId, setAccountId] = useState(null);
+  const [deviceId, setDeviceId] = useState(null);
   const buttonLabels = ["Start Cycle", "Needle Start", "Needle End", "Stop Cycle"];
 
-  const accountId = "example_account_id"; // Placeholder; replace with actual logic later.
-  const deviceId = "example_device_id"; // Placeholder; replace with actual logic later.
+  // Fetch account_id and device_id from API
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("@/api/v1/getIDs/route");
+        const data = await response.json();
+
+        if (data.accounts && data.accounts.length > 0) {
+          const firstAccount = data.accounts[0];
+          setAccountId(firstAccount.account_id);
+          setDeviceId(firstAccount.devices[0]?.device_id || "Unknown");
+        } else {
+          console.error("No accounts or devices found.");
+        }
+      } catch (error) {
+        console.error("Error fetching account and device IDs:", error);
+      }
+    }
+    fetchData();
+  }, []);
 
   const formatTime = (time) => {
     const minutes = String(Math.floor(time / 60000)).padStart(2, "0");

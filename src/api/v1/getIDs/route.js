@@ -11,7 +11,7 @@ export async function GET() {
     const accountsWithDevices = await Promise.all(
       accountResult.rows.map(async (account) => {
         const deviceResult = await pool.query(
-          'SELECT device_id, device_name FROM customer_provisioning.seambit WHERE account_id = $1',
+          'SELECT device_id, label FROM customer_provisioning.seambit WHERE account_id = $1',
           [account.account_id]
         );
         return {
