@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <Layout>
     <div className={`p-8 ${isMobile ? "bg-blue-50" : "bg-white"}`}>
-      <h1 className="text-2xl font-bold mb-6">Welcome to the Stopwatch App</h1>
+      <h1 className="text-xl mb-6">the Stopwatch App is <a href="/StopwatchEmbed">here.</a></h1>
     </div>
     </Layout>
   );
