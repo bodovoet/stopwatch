@@ -1,16 +1,12 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-// Add debug logging
-console.log('Initializing Supabase with:', { 
-  url: supabaseUrl,
-  hasKey: !!supabaseAnonKey // Don't log the actual key
-});
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error('Supabase environment variables are missing.');
+}
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: false // Since this is just for data submission
-  }
-})
+export const supabase = SUPABASE_URL && SUPABASE_KEY
+  ? createClient(SUPABASE_URL, SUPABASE_KEY)
+  : null;
