@@ -12,28 +12,23 @@ export default function Header() {
         <nav>
           <ul className="flex space-x-6">
             <li>
-              <Link href="/" className="hover:text-gray-600">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/About" className="hover:text-gray-600">
+              <Link href="/public/About" className="hover:text-gray-600">
                 About
               </Link>
             </li>
             <li>
-              <Link href="/Contact" className="hover:text-gray-600">
+              <Link href="/public/Contact" className="hover:text-gray-600">
                 Contact
               </Link>
             </li>
             <li>
-              <Link href="/Support" className="hover:text-gray-600">
+              <Link href="/public/Support" className="hover:text-gray-600">
                 Support
               </Link>
             </li>
             <li>
-              <Link href="/Login" className="hover:text-gray-600">
-                Login
+              <Link href="/sign-in" className="hover:text-gray-600">
+                Sign in
               </Link>
             </li>
           </ul>
