@@ -7,8 +7,14 @@
   --background-primary: #ffffff; /* White */
   --background-secondary: #f6f6f6; /* Light Gray */
 
+  --background-hover: #f6f6f6; /* Update with the appropriate gray */
+  --text-primary-hover: #000000; /* Optional: Update if you want hover text to differ */
+
   /* Text Colors */
   --text-primary: #000000; /* Black */
+
+  /* Border Colors */
+  --border-primary: #e0e0e0; /* Light Gray */
 
   /* Accent Colors */
   --accent-primary: #0066ff; /* Blue */
@@ -44,6 +50,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* Responsive Utility Classes */
 .container {
   width: 100%;
@@ -56,4 +68,102 @@ h1, h2, h3, h4, h5, h6 {
   .container {
     padding: 0 0.5rem; /* Reduced padding for smaller screens */
   }
+}
+
+.layout {
+  display: flex;
+  flex-direction: row; /* Sidebar on the left */
+  height: 100vh; /* Full viewport height */
+}
+
+.sidebar {
+  flex-shrink: 0;
+  width: 180px; /* Fixed width for sidebar */
+  background-color: var(--background-primary);
+  border-right: 1px solid var(--border-primary);
+  font-size: small;
+}
+
+.sidebar a {
+  display: block;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 0.5rem; /* Adjust for spacing around the links */
+  border-radius: 5px; /* Optional for a rounded button look */
+}
+
+.sidebar a:hover {
+  background-color: var(--background-secondary);
+}
+
+.sidebar a.active {
+  background-color: var(--background-secondary);
+}
+
+/* Sidebar links - spacing and alignment */
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.75rem 1rem; /* Adjust padding as needed */
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar nav a:hover {
+  background-color: var(--background-secondary);
+}
+
+.sidebar nav a .icon {
+  flex-shrink: 0; /* Prevent icon from resizing */
+}
+
+.sidebar nav a .label {
+  flex-grow: 1; /* Allow text to grow naturally */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 100px; /* Fixed header height */
+  background-color: var(--background-primary);
+  border-bottom: 0px solid var(--border-primary);
+}
+
+.page-content {
+  flex-grow: 1;
+  background-color: var(--background-secondary);
+  padding: 0rem; /* Adds spacing around content */
+  overflow-y: auto; /* Ensures scrolling if content overflows */
+}
+
+.secondNav {
+  display: flex;
+  gap: 1rem; /* Matches 'gap-4' in Tailwind */
+  background-color: var(--background-primary);
+  padding: 0.5rem 1rem; /* Matches 'px-6 py-3' in Tailwind */
+  border-bottom: 1px solid var(--border-primary);
+  font-size: smaller;
+}
+
+.secondNav a {
+  color: var(--text-primary); /* Ensure links inherit the primary text color */
+  text-decoration: none; /* Remove underline for links */
+  padding: 0.2rem 0.4rem; /* Add spacing to mimic button-like behavior */
+  border-radius: 5px; /* Slightly rounded corners */
+}
+
+.secondNav a:hover {
+  background-color: var(--background-hover); /* Same hover gray as primary navigation */
+  color: var(--text-primary-hover); /* Optional: Adjust text color on hover */
+}
+
+.secondNav a.active {
+  background-color: var(--accent-primary);
+  color: white; /* Optional: Ensure text contrast */
 }

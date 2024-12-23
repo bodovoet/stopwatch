@@ -1,16 +1,12 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { authMiddleware } from '@clerk/nextjs';
 
 export default authMiddleware({
-  publicRoutes: [
-    "/",               // Root route should be public
-    "/public/*",       // All public pages
-    "/sign-in",        // Sign-in page
-    "/sign-up",        // Sign-up page
-  ],
+  publicRoutes: ['/', '/public/(.*)'], // Adjust these as necessary
 });
 
 export const config = {
-  matcher: ["/((?!_next).*)"], // Matches all routes except static files
+  matcher: [
+    '/protected/User-profile(.*)', // Ensure the catch-all route for User-profile is matched
+    '/protected/(.*)',             // Handle other protected routes
+  ],
 };
-
-console.log("Middleware is running");

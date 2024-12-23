@@ -1,13 +1,17 @@
-import SignedInSidebar from "./SignedInSidebar";
-import SignedInHeader from "./SignedInHeader";
+import SignedInHeader from "@/components/shared/SignedInHeader";
+import SignedInSidebar from "@/components/shared/SignedInSidebar";
 
-export default function SignedInTemplate({ customerName, children }) {
+export default function SignedInLayout({ children }) {
   return (
-    <div className="flex">
-      <SignedInSidebar />
-      <div className="flex-grow">
-        <SignedInHeader customerName={customerName} />
-        <main className="p-6 bg-gray-50 min-h-screen">{children}</main>
+    <div className="layout">
+      <aside className="sidebar">
+        <SignedInSidebar />
+      </aside>
+      <div className="main-content">
+        <header className="header">
+          <SignedInHeader />
+        </header>
+        <main className="page-content">{children}</main>
       </div>
     </div>
   );
