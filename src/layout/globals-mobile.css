@@ -24,9 +24,9 @@
   --accent-secondary-red-dark: #9B1D20;
 
   /* Font Sizes */
-  --font-size-body: 0.8rem; /* Default body text size */
-  --font-size-h1: 2.5rem;
-  --font-size-h3: 1.75rem;
+  --font-size-body: 1rem; /* Default body text size */
+  --font-size-h1: 3rem;
+  --font-size-h3: 2rem;
 }
 
 /* General Typography */
@@ -47,12 +47,12 @@ h1, h3 {
 
 h1 {
   font-size: var(--font-size-h1);
-  line-height: 1.2;
+  line-height: 2;
 }
 
 h3 {
   font-size: var(--font-size-h3);
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 /* Global Button Styling */
@@ -105,7 +105,6 @@ button:hover {
   background: none;
   border: none;
   font-size: 4rem;
-  cursor: pointer;
 }
 
 /* Sidebar */
@@ -119,13 +118,15 @@ button:hover {
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  padding: 0rem;
-  box-sizing: border-box;
+  overflow: hidden; /* Prevent content overflow outside the sidebar */
+  overflow-y: auto;
 }
 
 .mobile-sidebar-content {
   flex-grow: 1;
   overflow-y: auto;
+  padding: 0rem;
+  box-sizing: border-box;
 }
 
 .close-sidebar-button {
@@ -140,7 +141,7 @@ button:hover {
 
 .mobile-sidebar-menu {
   list-style: none;
-  margin: 8rem 5rem 5rem 5rem;
+  margin: 8rem 5rem 2rem 5rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -153,7 +154,7 @@ button:hover {
   align-items: center;
   justify-content: space-between; /* Space between label and icon */
   padding: 1rem 2rem; /* Increased padding for left and right */
-  font-size: 1.5rem; /* Larger text size */
+  font-size: 2rem; /* Larger text size */
   color: var(--text-primary); /* Primary text color */
   background-color: var(--background-secondary); /* Background color */
   text-align: center;
@@ -209,14 +210,11 @@ button:hover {
 
 /* Support Form Styles */
 .support-intro {
-  margin: 8rem 2rem 1rem 2rem;
-  padding: 1rem;
-  font-size: 1rem;
-  color: var(--text-primary);
+  margin: 3rem 3rem 3rem 3rem;
 }
 
 .support-form {
-  padding: 1rem 3rem 1rem 3rem;
+  padding: 0rem 3rem 3rem 3rem;
 }
 
 .form-group {
@@ -235,7 +233,6 @@ textarea {
   padding: 0.5rem;
   border: 1px solid var(--border-primary);
   border-radius: 5px;
-  font-size: 1rem;
 }
 
 textarea {
@@ -250,6 +247,7 @@ textarea {
   border: 1px solid var(--border-primary);
   border-radius: 5px;
   text-align: center;
+  font-size: larger;
 }
 
 .file-upload-button:hover {
@@ -265,9 +263,15 @@ textarea {
   background-color: var(--accent-primary);
   color: var(--background-primary);
   font-size: 2rem;
-  cursor: pointer;
 }
 
 .submit-button:hover {
-  background-color: var(--primary-hover);
+  background-color: var(--accent-primary);
+}
+
+.user-profile-container {
+  padding: 1rem;
+  background-color: var(--background-secondary);
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }

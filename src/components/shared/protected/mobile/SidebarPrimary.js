@@ -8,6 +8,7 @@ import {
   PiGearSixLight,
 } from "react-icons/pi"; // New icons for menu links
 import SidebarFooter from "@/components/shared/protected/mobile/SidebarFooter"; // Updated footer import
+import EmptyScrollSpace from "@/components/shared/protected/mobile/EmptyScrollSpace";
 
 const SidebarPrimary = ({ closeMenu }) => {
   // Centralized links array
@@ -27,21 +28,26 @@ const SidebarPrimary = ({ closeMenu }) => {
         <TfiClose />
       </button>
 
-      {/* Navigation Links */}
-      <ul className="mobile-sidebar-menu">
-        {links.map((link) => (
-          <li key={link.path} className="mobile-sidebar-item">
-            <Link href={link.path} passHref>
-              <button className="mobile-sidebar-link">
-                <span className="link-label">{link.label}</span> {/* Label */}
-                <span className="link-icon">{link.icon}</span> {/* Icon */}
-              </button>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {/* Scrollable Content */}
+      <div className="mobile-sidebar-content">
+        <ul className="mobile-sidebar-menu">
+          {links.map((link) => (
+            <li key={link.path} className="mobile-sidebar-item">
+              <Link href={link.path} passHref>
+                <button className="mobile-sidebar-link">
+                  <span className="link-label">{link.label}</span> {/* Label */}
+                  <span className="link-icon">{link.icon}</span> {/* Icon */}
+                </button>
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-      {/* Sidebar Footer */}
+        {/* Empty Scroll Space */}
+        <EmptyScrollSpace />
+      </div>
+
+      {/* Footer */}
       <SidebarFooter toggleSidebar={closeMenu} />
     </div>
   );

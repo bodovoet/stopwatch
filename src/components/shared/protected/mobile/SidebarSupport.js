@@ -1,5 +1,7 @@
 import React from "react";
 import { TfiClose } from "react-icons/tfi";
+import SidebarFooter from "@/components/shared/protected/mobile/SidebarFooter";
+import EmptyScrollSpace from "@/components/shared/protected/mobile/EmptyScrollSpace";
 
 const SidebarSupport = ({ closeMenu }) => {
   const handleFileUpload = () => {
@@ -20,58 +22,67 @@ const SidebarSupport = ({ closeMenu }) => {
         <TfiClose />
       </button>
 
-      {/* Support Form Introduction */}
-      <div className="support-intro">
-        <p>
-          Need help? Submit a support request with details about your issue. You
-          can also upload photos or videos to provide additional context for
-          your request.
-        </p>
-      </div>
-
-      {/* Support Form */}
-      <form className="support-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Enter a short title for your issue"
-            required
-          />
+      {/* Scrollable Content */}
+      <div className="mobile-sidebar-content">
+        {/* Support Form Introduction */}
+        <div className="support-intro">
+          <h1>Support</h1>
+          <p>
+            Need help? Submit a support request with details about your issue.
+            You can also upload photos or videos to provide additional context
+            for your request.
+          </p>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            rows="4"
-            placeholder="Describe your issue in detail"
-            required
-          ></textarea>
-        </div>
+        {/* Support Form */}
+        <form className="support-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Enter a short title for your issue"
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="file">Add Photo or Video</label>
-          <button
-            type="button"
-            id="file"
-            className="file-upload-button"
-            onClick={handleFileUpload}
-          >
-            Upload Photo/Video
-          </button>
-        </div>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              placeholder="Describe your issue in detail"
+              required
+            ></textarea>
+          </div>
 
-        <div className="form-group">
-          <button type="submit" className="submit-button">
-            Submit
-          </button>
-        </div>
-      </form>
+          <div className="form-group">
+            <label htmlFor="file">Add Photo or Video</label>
+            <button
+              type="button"
+              id="file"
+              className="file-upload-button"
+              onClick={handleFileUpload}
+            >
+              Upload Photo/Video
+            </button>
+          </div>
 
+          <div className="form-group">
+            <button type="submit" className="submit-button">
+              Submit
+            </button>
+          </div>
+        </form>
+
+        {/* Empty Scroll Space */}
+        <EmptyScrollSpace />
+      </div> {/* Closing mobile-sidebar-content */}
+
+      {/* Footer */}
+      <SidebarFooter toggleSidebar={closeMenu} />
     </div>
   );
 };
