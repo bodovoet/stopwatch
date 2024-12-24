@@ -1,12 +1,24 @@
-import { authMiddleware } from '@clerk/nextjs';
+import { authMiddleware, redirectToSignIn } from '@clerk/nextjs';
 
 export default authMiddleware({
-  publicRoutes: ['/', '/public/(.*)'], // Adjust these as necessary
+  publicRoutes: ['/', '/public/(.*)'],
+  afterAuth: (auth, req, evt) => {
+    const isSignedIn = !!auth.userId;
+    const url = new URL(req.nextUrl);
+
+    // Redirect signed-in users to `/protected/Welcome`
+    if (isSignedIn && url.pathname === '/') {
+      url.pathname = '/protected/Welcome';
+      return evt.respondWith(Response.redirect(url.toString()));
+    }
+
+    // Ensure signed-out users are redirected to `/public/Signin`
+    if (!isSignedIn && url.pathname.startsWith('/protected')) {
+      return evt.respondWith(redirectToSignIn({ returnBackUrl: req.url }));
+    }
+  },
 });
 
 export const config = {
-  matcher: [
-    '/protected/User-profile(.*)', // Ensure the catch-all route for User-profile is matched
-    '/protected/(.*)',             // Handle other protected routes
-  ],
+  matcher: ['/protected/(.*)', '/'],
 };

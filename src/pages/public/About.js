@@ -1,4 +1,4 @@
-import Layout from '@/components/shared/Layout';
+import Layout from "@/components/shared/public/Layout";
 
 export default function About() {
   return (

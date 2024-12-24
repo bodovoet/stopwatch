@@ -28,7 +28,63 @@
   --accent-secondary-green-dark: #0B6E4F;
   --accent-secondary-gray-light: #E8E9ED;
   --accent-secondary-gray-dark: #AAAAAA;
-}
+
+  /* Font Sizes */
+  --font-size-body: 0.8rem; /* Default body text size */
+  --font-size-small: 0.5rem; /* Small text */
+  --font-size-h1: 2.5rem; /* Headline 1 */
+  --font-size-h2: 2rem; /* Headline 2 */
+  --font-size-h3: 1.75rem; /* Headline 3 */
+  --font-size-h4: 1.5rem; /* Headline 4 */
+  --font-size-h5: 1.25rem; /* Headline 5 */
+  --font-size-h6: 1rem; /* Headline 6 (same as body text) */
+  }
+  
+  body {
+    font-size: var(--font-size-body);
+    line-height: 1.6; /* Improve readability */
+  }
+  
+  small {
+    font-size: var(--font-size-small);
+    line-height: 1.4;
+  }
+  
+  h1 {
+    font-size: var(--font-size-h1);
+    line-height: 1.2;
+    font-weight: bold;
+  }
+  
+  h2 {
+    font-size: var(--font-size-h2);
+    line-height: 1.3;
+    font-weight: bold;
+  }
+  
+  h3 {
+    font-size: var(--font-size-h3);
+    line-height: 1.3;
+    font-weight: bold;
+  }
+  
+  h4 {
+    font-size: var(--font-size-h4);
+    line-height: 1.4;
+    font-weight: bold;
+  }
+  
+  h5 {
+    font-size: var(--font-size-h5);
+    line-height: 1.5;
+    font-weight: bold;
+  }
+  
+  h6 {
+    font-size: var(--font-size-h6);
+    line-height: 1.5;
+    font-weight: bold;
+  }
 
 .background-secondary {
   background-color: var(--background-secondary);
@@ -81,7 +137,6 @@ h1, h2, h3, h4, h5, h6 {
   width: 180px; /* Fixed width for sidebar */
   background-color: var(--background-primary);
   border-right: 1px solid var(--border-primary);
-  font-size: small;
 }
 
 .sidebar a {
@@ -148,7 +203,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--background-primary);
   padding: 0.5rem 1rem; /* Matches 'px-6 py-3' in Tailwind */
   border-bottom: 1px solid var(--border-primary);
-  font-size: smaller;
+  font-size: small;
 }
 
 .secondNav a {
@@ -166,4 +221,32 @@ h1, h2, h3, h4, h5, h6 {
 .secondNav a.active {
   background-color: var(--accent-primary);
   color: white; /* Optional: Ensure text contrast */
+}
+
+.popover {
+  position: absolute;
+  top: 1%; /* Align the popover vertically with the center of the button */
+  left: 100%; /* Position the popover to the right of the button */
+  transform: translateY(-50%); /* Center the popover vertically */
+  margin-left: 8px; /* Add some spacing between the button and the popover */
+  background: var(--background-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 1rem;
+  width: 12rem; /* Adjust width as needed */
+}
+
+.sign-out-button {
+  display: inline-block;
+  padding: 0.2rem 0.4rem;
+  background-color: var(--accent-secondary-red-dark); /* Use your brand color */
+  color: white;
+  font-size: small;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
 }
