@@ -1,5 +1,5 @@
 import SignedInHeader from "@/components/shared/protected/SignedInHeader";
-import SignedInSidebar from "@/components/shared/SignedInSidebar";
+import SignedInSidebar from "@/components/shared/protected/SignedInSidebar";
 
 export default function SignedInLayout({ children }) {
   return (
