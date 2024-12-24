@@ -1,4 +1,4 @@
-import SignedInLayout from "@/components/shared/SignedInLayout";
+import SignedInLayout from "@/components/shared/protected/SignedInLayout";
 import Stopwatch from "@/components/stopwatch/Stopwatch";
 
 export default function StopwatchEmbed() {

@@ -1,5 +1,5 @@
-import SecondNavReports from "@/components/shared/secondNav-Reports";
-import SignedInLayout from "@/components/shared/SignedInLayout";
+import SecondNavReports from "@/components/shared/protected/secondNav-Reports";
+import SignedInLayout from "@/components/shared/protected/SignedInLayout";
 
 export default function ReportsEOD() {
   return (

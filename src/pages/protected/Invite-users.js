@@ -1,5 +1,5 @@
-import SecondNavUser from "@/components/shared/secondNav-User";
-import SignedInLayout from "@/components/shared/SignedInLayout";
+import SecondNavUser from "@/components/shared/protected/secondNav-User";
+import SignedInLayout from "@/components/shared/protected/SignedInLayout";
 
 export default function InviteUsers() {
   return (

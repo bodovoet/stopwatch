@@ -1,5 +1,5 @@
-import SecondNavMetrics from "@/components/shared/secondNav-Metrics";
-import SignedInLayout from "@/components/shared/SignedInLayout";
+import SecondNavMetrics from "@/components/shared/protected/secondNav-Metrics";
+import SignedInLayout from "@/components/shared/protected/SignedInLayout";
 
 export default function MetricsSeambits() {
   return (

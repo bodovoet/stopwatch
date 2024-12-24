@@ -1,5 +1,5 @@
-import SecondNavResources from "@/components/shared/secondNav-Resources";
-import SignedInLayout from "@/components/shared/SignedInLayout";
+import SecondNavResources from "@/components/shared/protected/secondNav-Resources";
+import SignedInLayout from "@/components/shared/protected/SignedInLayout";
 
 export default function ResourcesStyles() {
   return (

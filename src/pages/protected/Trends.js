@@ -1,5 +1,5 @@
-import SecondNavTrends from "@/components/shared/secondNav-Trends";
-import SignedInLayout from "@/components/shared/SignedInLayout";
+import SecondNavTrends from "@/components/shared/protected/secondNav-Trends";
+import SignedInLayout from "@/components/shared/protected/SignedInLayout";
 
 export default function Trends() {
   return (

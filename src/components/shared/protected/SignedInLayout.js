@@ -1,4 +1,4 @@
-import SignedInHeader from "@/components/shared/SignedInHeader";
+import SignedInHeader from "@/components/shared/protected/SignedInHeader";
 import SignedInSidebar from "@/components/shared/SignedInSidebar";
 
 export default function SignedInLayout({ children }) {

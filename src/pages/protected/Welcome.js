@@ -1,5 +1,5 @@
-import SecondNavWelcome from "@/components/shared/secondNav-Welcome";
-import SignedInLayout from "@/components/shared/SignedInLayout";
+import SecondNavWelcome from "@/components/shared/protected/secondNav-Welcome";
+import SignedInLayout from "@/components/shared/protected/SignedInLayout";
 
 export default function Welcome() {
   return (

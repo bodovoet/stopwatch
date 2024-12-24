@@ -1,5 +1,5 @@
-import SecondNavSupport from "@/components/shared/secondNav-Support";
-import SignedInLayout from "@/components/shared/SignedInLayout";
+import SecondNavSupport from "@/components/shared/protected/secondNav-Support";
+import SignedInLayout from "@/components/shared/protected/SignedInLayout";
 
 export default function Support() {
   return (

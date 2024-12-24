@@ -1,4 +1,4 @@
-import SignOutContent from "../components/shared/SignOutContent";
+import SignOutContent from "../components/shared/protected/SignOutContent";
 
 export default function SignOutPage() {
   return (
