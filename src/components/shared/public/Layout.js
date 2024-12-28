@@ -1,3 +1,4 @@
+import { ClerkProvider } from '@clerk/nextjs';
 import Header from "@/components/shared/public/Header";
 import Footer from "@/components/shared/public/Footer";
 import "@/layout/globals.css";

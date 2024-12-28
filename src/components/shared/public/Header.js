@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useAuth, SignInButton } from "@clerk/nextjs";
 import logo from "@/public/logo-black.svg";
 
 export default function Header() {
